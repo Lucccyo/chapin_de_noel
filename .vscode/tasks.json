@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "windows": {
+      "options": {
+        "shell": {
+          "executable": "bash.exe",
+          "args": ["-c"]
+        }
+      }
+    },
+    "tasks": [
+      {
+        "label": "build on WSL",
+        "type": "shell",
+        "command": "g++",
+        "args": [
+          "-g",
+          "-o",
+          "/home/chabricot/projects/helloworld/helloworld.out",
+          "'${relativeFileDirname}/${fileBasename}'"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": [
+            "$gcc"
+        ]
+      },
+      {
+        "label": "run on WSL",
+        "type": "shell",
+        "command": "/home/chabricot/projects/helloworld/helloworld.out",
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        },
+        "problemMatcher": [
+            "$gcc"
+        ]
+        }
+    ]
+     }
