@@ -5,30 +5,34 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+void display (char line[]) {
+  for (int i = 0; i < 10; i++) printf("%c ", line[i]);
+  printf("\n");
+}
+
 int main (int argc, char **argv) {
-  int fdesc, nbOct;
-  char tampon[256] = {0};
-  char mot_buffer[10];
+  int fd, nbOct;
+  char buffer[256] = {0};
+  char line[10];
   int count = 0;
   char path[] = "./data.txt"; 
-  fdesc = open(path, O_RDONLY); // ouverture
-  if (fdesc == -1) { perror("open() error"); exit(1); }
+  fd = open(path, O_RDONLY);
+  if (fd == -1) { perror("open() error"); exit(1); }
   while (1) {
-    nbOct = read(fdesc, tampon, 1); // lecture
+    nbOct = read(fd, buffer, 1);
     if (nbOct == -1) { perror("read() error"); exit(1); }
-    if (nbOct == 0) break; // fin du fichier
+    if (nbOct == 0) break; // end of file
     count++;
-
-    if (tampon[0] == '\n') {
-      // printf("."); // le premier passage de ligne, car c prends les fichiers qui commencent a la ligne 0?
-      write(1, mot_buffer, count-1); // écriture
-      write(1, tampon, 1);
+    if (buffer[0] == '\n') {
+      if (line[0] == '*') printf(">> ");
+      write(1, line, count-1);
+      write(1, buffer, 1);
       fflush(stdout);
-      for(int i = 0; i < sizeof(mot_buffer); i++) mot_buffer[i] = '*';
+      for(int i = 0; i < sizeof(line); i++) line[i] = '*';
       count = 0;
     }
-    else {mot_buffer[count-1] = tampon[0];}
+    else {line[count-1] = buffer[0];}
   }
-  close(fdesc); // fermeture
+  close(fd);
   return 0; 
 }
