@@ -5,10 +5,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-void display (char line[]) {
-  for (int i = 0; i < 10; i++) printf("%c ", line[i]);
-  printf("\n");
-}
 
 int main (int argc, char **argv) {
   int fd, nbOct;
@@ -27,6 +23,7 @@ int main (int argc, char **argv) {
       if (line[0] == '*') printf(">> ");
       write(1, line, count-1);
       write(1, buffer, 1);
+      // printf("%d\n", line_to_num(line, count));
       fflush(stdout);
       for(int i = 0; i < sizeof(line); i++) line[i] = '*';
       count = 0;
